@@ -1,37 +1,36 @@
-const fs = require("node:fs");
+const fs = require("node:fs/promises");
 
 const dir = __dirname;
 
-function readDirectory(dir, cb, newdir) {
-    cb(newdir);
-
-    // in directory
-    const filenames = fs.readdirSync(dir);
-
-    filenames.forEach((file) => {
-        if(fs.statSync(file).isFile()) console.log(`фаил: ${file}`);
-        else console.log(`каталог: ${file}`);
-    });
+async function readDirectory(dir) {
+    try {
+        const files = await fs.readdir(dir);
+        for (const file of files) {
+            const stat = await fs.stat(file);
+            if(stat.isFile()) console.log(`фаил: ${file}`);
+            else console.log(`каталог: ${file}`);
+        }
+    } catch (err) {
+        console.error(err);
+    }
 }
 
-const mk = (newdir) => {
+(async () => {
     try {
-        fs.mkdirSync(newdir);
+        await fs.mkdir('newdir');
         console.log("Каталог создан");
     } catch (error) {
         console.log('Ошибка при создании каталога: ' + error);
     }
-}
 
-readDirectory(dir, mk, 'newdir');
+    await readDirectory(dir);
 
-const rm = (newdir) => {
     try {
-        fs.rmdirSync(newdir);
+        await fs.rmdir('newdir');
         console.log("Каталог удален");
     } catch (error) {
         console.log('Ошибка при удалении каталога: ' + error);
     }
-}
 
-readDirectory(dir, rm, 'newdir');
+    await readDirectory(dir);
+})();
