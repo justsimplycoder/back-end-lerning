@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Комплексная форма.</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+<% if(requestMethod === 'POST') { %>
+    <% if(eduform && firstname && courses) {
+        let output =`<h2>Данные сохранены</h2>
+            <p>Вас зовут: ${firstname}<br />
+            Форма обучения: ${eduform}<br />
+            Требуется общежитие: ${hostel}<br /></p>
+            <p>Выбранные курсы:</p>
+            <ul>`;
+        if(Array.isArray(courses)) {
+            output += courses.map(course => `<li>${course}</li>`);
+        } else {
+            output += `<li>${courses}</li>`;
+        }
+        output += "</ul>";
+        if(comment) output += `<p>Дополнительные комментарии: ${comment}</p>`;
+    %>
+        <%- output %>
+    <% } else { %>
+        <p>Введенные данные некорректны!</p>
+    <% } %>
+<% } %>
+
+<h1>Пример формы</h1>
+<h2>Анкета</h2>
+<form  method="POST">
+<p>Введите имя:<br>
+<input type="text" name="firstname" /></p>
+<p>Форма обучения: <br>
+<input type="radio" name="eduform" value="очно" checked />очно <br>
+<input type="radio" name="eduform" value="заочно" />заочно </p>
+<p>Требуется общежитие:<br>
+<input type="checkbox" name="hostel" />Да</p>
+<p>Выберите курсы: <br>
+<select name="courses" size="5" multiple="multiple">
+    <option value="ASP.NET">ASP.NET</option>
+    <option value="PHP">PHP</option>
+    <option value="Ruby">RUBY</option>
+    <option value="Python">Python</option>
+    <option value="Java">Java</option>
+</select></p>
+<p>Краткий комментарий: <br>
+<textarea name="comment" maxlength="200"></textarea></p>
+<input type="submit" value="Отправить">
+</form>
+</body>
+<html>
