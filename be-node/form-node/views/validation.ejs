@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Валидация формы!</title>
+  <style>
+    .error {
+      color: red;
+    }
+  </style>
+<head>
+<body>
+<form action="/validation" method="POST">
+  Имя:
+  <input type="text" name="name" value="<%=(typeof inputData!='undefined')? inputData.name:''%>">
+  <span class="error">* <%=(typeof errors!='undefined' && typeof errors.name!='undefined' )? errors.name.msg:''%></span>
+  <br><br>
+  E-mail:
+  <input type="text" name="email" value="<%=(typeof inputData!='undefined')? inputData.email:''%>">
+  <span class="error">* <%=(typeof errors!='undefined' && typeof errors.email!='undefined' )? errors.email.msg:''%></span>
+  <br><br>
+  Сайт:
+  <input type="text" name="website" value="<%=(typeof inputData!='undefined')? inputData.website:''%>">
+  <span class="error"><%=(typeof errors!='undefined' && typeof errors.website!='undefined' && errors.website.value != '')? errors.website.msg:''%></span>
+  <br><br>
+  Комментарий: <textarea name="comment" rows="5" cols="40"><%=(typeof inputData!='undefined')? inputData.comment:''%></textarea>
+  <br><br>
+  <input type="radio" name="gender" <%=(typeof inputData!='undefined' && inputData.gender == 'female')? 'checked':''%> value="female">Женский
+  <input type="radio" name="gender" <%=(typeof inputData!='undefined' && inputData.gender == 'male')? 'checked':''%> value="male">Мужской
+  <span class="error">* <%=(typeof errors!='undefined' && typeof errors.gender!='undefined' )? errors.gender.msg:''%></span>
+  <br><br>
+  <input type="submit" name="submit" value="Отправить">
+</form>
+</body>
+</html>
